@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0B1220" />
+  <title>Auditoría Express Automatizada – CATU</title>
+  <link rel="icon" type="image/png" href="../icons/logo-catu-dorado.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img src="../icons/logo-catu-dorado.png" alt="CATU" height="36" />
+      <div class="brand-text">
+        <h1>Auditoría Express</h1>
+        <p>CATU · Diagnóstico de vulnerabilidad</p>
+      </div>
+    </div>
+    <div class="progress-badge" id="quiz-counter" style="display:none;">Pregunta 1 de 15</div>
+    <div class="progress-badge" id="offline-badge" style="display:none;">Modo offline</div>
+  </header>
+  <main>
+    <section id="screen-landing" class="screen active">
+      <div class="hero">
+        <img src="../icons/logo-catu-dorado.png" alt="CATU" class="hero-logo" />
+        <h2>Conoce en 15 minutos tu<br><span>Índice de Vulnerabilidad</span><br>ante la fiscalización</h2>
+        <p class="lead">Diagnóstico automático de los 6 vicios críticos. Fundamentado en LOPSRM, su Reglamento y criterios de la ASF.</p>
+        <div class="hero-stats">
+          <div class="stat"><div class="num">15</div><div class="label">Preguntas</div></div>
+          <div class="stat"><div class="num">6</div><div class="label">Vicios críticos</div></div>
+          <div class="stat"><div class="num">~15</div><div class="label">Minutos</div></div>
+        </div>
+        <button class="btn btn-primary" id="btn-start">Iniciar diagnóstico →</button>
+      </div>
+    </section>
+    <section id="screen-quiz" class="screen">
+      <div class="quiz-progress"><div class="bar" id="quiz-progress-bar" style="width:0%"></div></div>
+      <div class="question-card">
+        <div class="question-meta" id="question-meta"></div>
+        <div class="question-text" id="question-text"></div>
+        <div class="question-help" id="question-help"></div>
+        <div class="options" id="options-container"></div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-secondary" id="btn-prev">← Anterior</button>
+        <button class="btn btn-primary" id="btn-next" disabled>Siguiente →</button>
+      </div>
+    </section>
+    <section id="screen-gate" class="screen">
+      <div class="gate-card">
+        <h2>Tu diagnóstico está listo</h2>
+        <p class="subtitle">Ingresa tus datos para ver el Índice y descargar el PDF.</p>
+        <form id="gate-form" novalidate>
+          <div class="form-group"><label for="f-nombre">Nombre completo <span class="req">*</span></label><input type="text" id="f-nombre" required autocomplete="name" /></div>
+          <div class="form-group"><label for="f-correo">Correo institucional <span class="req">*</span></label><input type="email" id="f-correo" required autocomplete="email" /></div>
+          <div class="form-group"><label for="f-cargo">Cargo</label><input type="text" id="f-cargo" /></div>
+          <div class="form-group"><label for="f-entidad">Entidad / Municipio</label><input type="text" id="f-entidad" /></div>
+          <div class="form-group"><label for="f-telefono">Teléfono</label><input type="tel" id="f-telefono" /></div>
+          <div class="consent"><input type="checkbox" id="f-consent" /><label for="f-consent">Acepto el <a href="#" id="link-privacy">Aviso de Privacidad</a>.</label></div>
+          <div class="form-error" id="form-error"></div>
+          <button type="submit" class="btn btn-primary btn-block">Ver mi Índice →</button>
+        </form>
+      </div>
+    </section>
+    <section id="screen-results" class="screen">
+      <div class="results-header">
+        <p id="user-greeting">Tu diagnóstico</p>
+        <div class="ivpp-number" id="ivpp-number">—</div>
+        <div class="nivel" id="nivel-badge">—</div>
+        <p class="interpretacion" id="interpretacion"></p>
+      </div>
+      <div class="chart-wrap"><h3>Desglose de los 6 vicios críticos</h3><canvas id="radar-chart" height="260"></canvas></div>
+      <div class="vicios-list" id="vicios-list"></div>
+      <div class="recomendaciones"><h3>Recomendaciones prioritarias</h3><ul id="recomendaciones-list"></ul></div>
+      <div class="cta-group">
+        <button class="btn btn-primary" id="btn-pdf">Descargar reporte PDF</button>
+        <a class="btn btn-secondary" href="https://aminramirezvilla-hue.github.io/Bitacora-de-Obra_Checklist/" target="_blank" rel="noopener">Ir al Checklist preventivo →</a>
+      </div>
+    </section>
+  </main>
+  <footer class="app-footer">Centro de Auditoría Técnica y Urbana (CATU) · <a href="mailto:centro.catu@gmail.com">centro.catu@gmail.com</a></footer>
+  <div class="modal-overlay" id="privacy-modal">
+    <div class="modal">
+      <h2>Aviso de Privacidad</h2>
+      <p>CATU trata nombre, correo, cargo, entidad y teléfono solo para entregar el reporte IVPP y contacto relacionado. centro.catu@gmail.com</p>
+      <button class="btn btn-primary close-btn" id="btn-close-privacy">Cerrar</button>
+    </div>
+  </div>
+  <script src="js/questions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
