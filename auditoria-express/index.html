@@ -7,6 +7,7 @@
   <title>Auditoría Express Automatizada – CATU</title>
   <link rel="icon" type="image/png" href="../icons/logo-catu-dorado.png" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/print.css" />
 </head>
 <body>
   <header class="app-header">
@@ -64,6 +65,13 @@
       </div>
     </section>
     <section id="screen-results" class="screen">
+      <header class="print-sheet">
+        <img src="../icons/logo-catu-dorado.png" alt="CATU" class="print-logo" />
+        <div class="print-meta">
+          <strong>Centro de Auditoría Técnica y Urbana</strong>
+          <span>Dictamen IVPP · Auditoría Express · herramienta preventiva, no dictamen pericial</span>
+        </div>
+      </header>
       <div class="results-header">
         <p id="user-greeting">Tu diagnóstico</p>
         <div class="ivpp-number" id="ivpp-number">—</div>
@@ -73,6 +81,7 @@
       <div class="chart-wrap"><h3>Desglose de los 6 vicios críticos</h3><canvas id="radar-chart" height="260"></canvas></div>
       <div class="vicios-list" id="vicios-list"></div>
       <div class="recomendaciones"><h3>Recomendaciones prioritarias</h3><ul id="recomendaciones-list"></ul></div>
+      <p class="print-foot">CATU · centro.catu@gmail.com · Documento generado por Auditoría Express Automatizada. No sustituye una auditoría formal.</p>
       <div class="cta-group">
         <button class="btn btn-primary" id="btn-pdf">Descargar reporte PDF</button>
         <a class="btn btn-secondary" href="https://aminramirezvilla-hue.github.io/Bitacora-de-Obra_Checklist/" target="_blank" rel="noopener">Ir al Checklist preventivo →</a>
