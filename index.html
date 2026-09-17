@@ -1,968 +1,244 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor de Riesgo Fiscal 2026 | CATU Fiscalización Superior</title>
-
-    <!-- Meta Tags para Previsualización en Facebook (Open Graph) -->
-    <meta property="og:title" content="🎯 Diagnóstico IERF 2026: ¿Qué tan vulnerable es su Obra Pública ante la ASF?">
-    <meta property="og:description" content="Evalúe gratis en 3 minutos el Índice de Exposición al Riesgo Fiscal (IERF). Evite pliegos resarcitorios y auditorías con el método CATU.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&h=630&auto=format&fit=crop">
-    <meta property="og:locale" content="es_MX">
-
-    <!-- Meta Tags para Twitter / LinkedIn -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Monitor de Riesgo Fiscal 2026 - CATU Fiscalización">
-    <meta name="twitter:description" content="Calculadora interactiva de vulnerabilidad resarcitoria en Obra Pública conforme a la LOPSRM/RLOPSRM.">
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-main: #fcfbf9;
-            --primary: #0f172a;
-            --accent-gold: #d97706;
-            --accent-blue: #1e3a8a;
-        }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg-main); 
-            color: #1e293b; 
-        }
-        .font-mono-custom {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .chart-container { 
-            position: relative; 
-            width: 100%; 
-            max-width: 650px; 
-            margin-left: auto; 
-            margin-right: auto; 
-            height: 320px; 
-            max-height: 380px; 
-        }
-        .hero-gradient {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1e1b4b 100%);
-        }
-        .card-reading {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-left: 4px solid #3b82f6;
-        }
-        .option-pill {
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-        }
-        .option-pill.selected-low {
-            background-color: #f0fdf4;
-            border-color: #22c55e;
-            color: #15803d;
-            font-weight: 700;
-        }
-        .option-pill.selected-med {
-            background-color: #fffbeb;
-            border-color: #f59e0b;
-            color: #b45309;
-            font-weight: 700;
-        }
-        .option-pill.selected-high {
-            background-color: #fef2f2;
-            border-color: #ef4444;
-            color: #b91c1c;
-            font-weight: 700;
-        }
-        .badge-read {
-            background-color: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #bfdbfe;
-        }
-        .badge-interactive {
-            background-color: #fef3c7;
-            color: #b45309;
-            border: 1px solid #fde68a;
-        }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0B1220" />
+  <meta name="description" content="Monitor IERF – CATU. Diagnostique en 15 reactivos la exposición fiscal de una obra pública por etapa del ciclo LOPSRM / RLOPSRM." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Monitor IERF CATU" />
+  <meta property="og:title" content="Monitor IERF – CATU · Exposición fiscal por etapa" />
+  <meta property="og:description" content="Índice de Exposición al Riesgo Fiscal (0–100) ponderado por el ciclo de obra. 15 reactivos · LOPSRM / RLOPSRM." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_MX" />
+  <meta name="twitter:card" content="summary" />
+  <title>Monitor IERF – CATU</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="antialiased text-slate-800">
-
-    <!-- Banner Superior de Redes Sociales -->
-    <div class="bg-amber-500 text-slate-950 px-4 py-2 text-center text-xs font-bold flex flex-wrap justify-center items-center gap-2">
-        <span>📢 Herramienta Interactiva Compartible para Facebook, LinkedIn y Grupos de Fiscalización</span>
-        <button onclick="copiarEnlacePublicacion()" class="bg-slate-950 text-amber-400 hover:bg-slate-800 px-3 py-1 rounded-md text-[11px] font-extrabold uppercase transition-all shadow">
-            🔗 Copiar Enlace para Post
-        </button>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img src="icons/logo-catu-dorado.png" alt="CATU" onerror="this.style.display='none'" />
+      <div class="brand-text">
+        <h1>Monitor IERF</h1>
+        <p>CATU · Exposición fiscal por etapa</p>
+      </div>
     </div>
+    <div class="header-actions">
+      <span class="badge offline" id="offline-badge">Modo offline</span>
+    </div>
+  </header>
 
-    <!-- Header Navigation -->
-    <nav class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-amber-500 text-slate-950 font-black px-2.5 py-1 rounded text-sm tracking-wider">CATU</div>
-                    <span class="font-extrabold text-lg tracking-tight">
-                        FISCALIZACIÓN <span class="text-amber-400 font-normal text-xs uppercase tracking-widest block md:inline">| Auditoría Preventiva 2026</span>
-                    </span>
-                </div>
-                <div class="hidden lg:flex space-x-6 text-xs font-semibold text-slate-300">
-                    <a href="#hero-ierf" class="hover:text-amber-400 transition-colors">🎯 Tablero IERF</a>
-                    <a href="#ciclo-informativo" class="hover:text-amber-400 transition-colors">📘 01. Ciclo de Obra</a>
-                    <a href="#seccion-evaluacion" class="hover:text-amber-400 transition-colors">✏️ 02. Diagnóstico Interactivo</a>
-                    <a href="#hallazgos-asf" class="hover:text-amber-400 transition-colors">📊 03. Radiografía ASF</a>
-                    <a href="#lead-form-section" class="hover:text-amber-400 transition-colors">📩 Dictamen Directo</a>
-                </div>
-                <div>
-                    <a href="#seccion-evaluacion" class="px-4 py-2 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg shadow transition-all">
-                        Iniciar Evaluación
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+  <div class="sticky-ierf" id="sticky">
+    <div class="meter">
+      <div class="row">
+        <span class="label">IERF ponderado</span>
+        <span class="score" id="sticky-score">—</span>
+      </div>
+      <div class="bar pending" id="sticky-bar"><span></span></div>
+    </div>
+    <div>
+      <div class="label" id="sticky-count">0 / 15</div>
+      <div class="hint" id="sticky-hint">Semáforo a partir de 8 reactivos</div>
+    </div>
+  </div>
 
-    <!-- HERO SECTION: CALIFICADOR IERF EN TIEMPO REAL -->
-    <section id="hero-ierf" class="hero-gradient text-white py-12 lg:py-16 px-4 shadow-xl relative overflow-hidden">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            <!-- Pitch & Context Headings -->
-            <div class="lg:col-span-5 space-y-5">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 text-xs font-bold tracking-widest text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-full">
-                    <span>Herramienta Oficial de Perfilado Técnico CATU</span>
-                </div>
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-                    Índice de Exposición al <span class="text-amber-400">Riesgo Fiscal (IERF)</span>
-                </h1>
-                <p class="text-slate-300 text-sm md:text-base leading-relaxed">
-                    Métrica ponderada de vulnerabilidad administrativa y resarcitoria ante revisiones de la <strong>ASF, ORFIS, SFP y Contralorías</strong>. Responda los 15 reactivos de la evaluación para obtener su diagnóstico en tiempo real.
-                </p>
-                <div class="pt-2 flex flex-wrap gap-3">
-                    <a href="#seccion-evaluacion" class="px-5 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
-                        ⚡ Contestar Diagnóstico (15 Preguntas)
-                    </a>
-                    <a href="#ciclo-informativo" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm rounded-xl border border-slate-700 transition-all">
-                        📘 Repasar Marco Legal RLOPSRM
-                    </a>
-                </div>
-            </div>
-
-            <!-- THE HERO COMPONENT: DYNAMIC IERF SCORE CARD -->
-            <div class="lg:col-span-7 bg-slate-900/90 border-2 border-amber-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 mb-6 gap-2">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Resultado Evaluado</span>
-                        <h2 class="text-lg font-bold text-white">Score de Vulnerabilidad de Obra Pública</h2>
-                    </div>
-                    <span id="hero-status-badge" class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
-                        Puntuación en Vivo
-                    </span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-                    <!-- Giant Counter Widget -->
-                    <div class="sm:col-span-5 text-center sm:border-r border-slate-800 sm:pr-6">
-                        <div class="text-xs text-slate-400 font-semibold mb-1">ÍNDICE IERF PONDERADO</div>
-                        <div id="hero-score-num" class="text-6xl sm:text-7xl font-black font-mono-custom text-amber-400 tracking-tight">
-                            0
-                        </div>
-                        <div class="text-xs text-slate-400 mt-1">Escala de 0 (Seguro) a 100 (Crítico)</div>
-                        
-                        <!-- Mini Bar Progress -->
-                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden mt-4 border border-slate-700">
-                            <div id="hero-progress-bar" class="bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500 h-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                    </div>
-
-                    <!-- Dynamic Diagnosis Panel -->
-                    <div class="sm:col-span-7 space-y-3">
-                        <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
-                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Estado de Auditoría:</span>
-                            <h3 id="hero-status-title" class="text-base font-extrabold text-emerald-400 mt-0.5">---</h3>
-                            <p id="hero-status-desc" class="text-xs text-slate-300 mt-1 leading-relaxed">---</p>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-2 text-xs">
-                            <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-800">
-                                <span class="text-slate-400 block text-[10px]">Riesgo Resarcitorio</span>
-                                <span id="hero-risk-level" class="font-bold text-white">---</span>
-                            </div>
-                            <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-800">
-                                <span class="text-slate-400 block text-[10px]">Acción CATU Requerida</span>
-                                <span id="hero-action-needed" class="font-bold text-amber-400">---</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Footer Callout inside Hero -->
-                <div class="mt-6 pt-4 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-400">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-amber-400 text-base">⚖️</span>
-                        <span>Fórmula Ponderada: Planeación (15%), Presupuesto (15%), Contratación (15%), Ejecución (40%), Cierre (15%).</span>
-                    </div>
-                    <button onclick="scrollToDiagnostic()" class="text-xs font-bold text-amber-400 hover:text-amber-300 underline">
-                        Responder Preguntas ↓
-                    </button>
-                </div>
-            </div>
-
-        </div>
+  <main>
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <img src="icons/logo-catu-dorado.png" alt="" class="hero-logo" onerror="this.style.display='none'" />
+        <span class="kicker">Herramienta CATU · 2026</span>
+        <h2>Índice de Exposición al <span>Riesgo Fiscal</span></h2>
+        <p class="lead">
+          Diagnóstico por las 5 etapas del ciclo de obra pública. El IERF pondera Ejecución al 40% porque ahí se concentran los montos observados; la causa suele nacer en planeación.
+        </p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num">15</div><div class="lbl">Reactivos</div></div>
+        <div class="stat"><div class="num">5</div><div class="lbl">Etapas</div></div>
+        <div class="stat"><div class="num">40%</div><div class="lbl">Peso ejecución</div></div>
+      </div>
+      <div class="cta-row">
+        <button type="button" class="btn btn-gold" id="btn-start">Diagnosticar obra</button>
+        <button type="button" class="btn btn-ghost" id="home-resume" style="display:none">Reanudar</button>
+        <button type="button" class="btn btn-ghost" id="btn-skip-legal-home">Solo diagnóstico</button>
+      </div>
+      <p class="note">
+        Distinto de Auditoría Express (IVPP · 6 vicios de control). El IERF mide exposición fiscal <em>por etapa contractual</em>, no el vicio de bitácora.
+      </p>
     </section>
 
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 py-12 space-y-20">
+    <section id="screen-stage" class="screen">
+      <p class="section-title" id="stage-progress">Etapa 1 de 5</p>
+      <h2 class="block">Ciclo legal y estado de la obra</h2>
+      <p class="lead" style="margin-bottom:0.8rem">El requisito legal y los tres reactivos viven en la misma etapa. No hay un modo lectura separado.</p>
 
-        <!-- SECCIÓN 01: MODO LECTURA / INFORMATIVO (MARCO Y CICLO DE 5 ETAPAS) -->
-        <section id="ciclo-informativo" class="scroll-mt-20">
-            
-            <!-- Banner Identificador de Modo Lectura -->
-            <div class="flex items-center space-x-3 mb-6 p-3 bg-blue-50 border border-blue-200 rounded-xl">
-                <span class="badge-read px-2.5 py-1 rounded-md text-xs font-black uppercase">Modo Lectura</span>
-                <p class="text-xs font-medium text-blue-900">
-                    <strong>Fundamentación Técnica CATU:</strong> Guía informativa de los aspectos legales obligatorios en el Ciclo de la Obra Pública (LOPSRM/RLOPSRM).
-                </p>
-            </div>
+      <div class="pipeline" id="pipeline">
+        <button type="button" class="pipe active" data-stage="1"><strong>E1 Planeación</strong><span class="w">15%</span></button>
+        <button type="button" class="pipe" data-stage="2"><strong>E2 Presupuesto</strong><span class="w">15%</span></button>
+        <button type="button" class="pipe" data-stage="3"><strong>E3 Contrato</strong><span class="w">15%</span></button>
+        <button type="button" class="pipe" data-stage="4"><strong>E4 Ejecución</strong><span class="w">40%</span></button>
+        <button type="button" class="pipe" data-stage="5"><strong>E5 Cierre</strong><span class="w">15%</span></button>
+      </div>
 
-            <div class="max-w-3xl mb-8">
-                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Metodología Regulatoria</span>
-                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1 mb-2">01. Las 5 Etapas del Ciclo Legal de la Obra Pública</h2>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    Las observaciones con sanción resarcitoria de la ASF no ocurren al azar. Corresponden a omisiones específicas en cada una de las fases del ciclo contractual. Seleccione una etapa para explorar sus requisitos indispensables:
-                </p>
-            </div>
-
-            <!-- Pipeline de 5 Etapas (Selector Lectura) -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
-                <button onclick="selectReadingStage(1)" id="stage-btn-1" class="stage-nav-btn p-3.5 rounded-xl text-left border-2 border-blue-900 bg-blue-900 text-white font-medium transition-all shadow-sm">
-                    <span class="text-[10px] uppercase opacity-75 font-bold block">Etapa 1</span>
-                    <span class="font-bold text-xs sm:text-sm block">Planeación</span>
-                </button>
-                <button onclick="selectReadingStage(2)" id="stage-btn-2" class="stage-nav-btn p-3.5 rounded-xl text-left border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-300 font-medium transition-all">
-                    <span class="text-[10px] uppercase text-slate-400 font-bold block">Etapa 2</span>
-                    <span class="font-bold text-xs sm:text-sm block">Presupuestación</span>
-                </button>
-                <button onclick="selectReadingStage(3)" id="stage-btn-3" class="stage-nav-btn p-3.5 rounded-xl text-left border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-300 font-medium transition-all">
-                    <span class="text-[10px] uppercase text-slate-400 font-bold block">Etapa 3</span>
-                    <span class="font-bold text-xs sm:text-sm block">Contratación</span>
-                </button>
-                <button onclick="selectReadingStage(4)" id="stage-btn-4" class="stage-nav-btn p-3.5 rounded-xl text-left border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-300 font-medium transition-all">
-                    <span class="text-[10px] uppercase text-slate-400 font-bold block">Etapa 4</span>
-                    <span class="font-bold text-xs sm:text-sm block">Ejecución</span>
-                </button>
-                <button onclick="selectReadingStage(5)" id="stage-btn-5" class="stage-nav-btn p-3.5 rounded-xl text-left border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-300 font-medium transition-all">
-                    <span class="text-[10px] uppercase text-slate-400 font-bold block">Etapa 5</span>
-                    <span class="font-bold text-xs sm:text-sm block">Entrega & Finiquito</span>
-                </button>
-            </div>
-
-            <!-- Panel Informativo de la Etapa Seleccionada -->
-            <div id="reading-stage-card" class="card-reading p-6 sm:p-8 rounded-2xl shadow-sm">
-                <!-- JS Inject content -->
-            </div>
-        </section>
-
-
-        <!-- SECCIÓN 02: MODO RESPUESTA / DIAGNÓSTICO INTERACTIVO (CUESTIONARIO MEDIBLE) -->
-        <section id="seccion-evaluacion" class="scroll-mt-20">
-            
-            <!-- Banner Identificador de Modo Respuesta -->
-            <div class="flex items-center space-x-3 mb-6 p-3 bg-amber-50 border border-amber-300 rounded-xl">
-                <span class="badge-interactive px-2.5 py-1 rounded-md text-xs font-black uppercase">Modo Evaluación Requerida</span>
-                <p class="text-xs font-semibold text-amber-950">
-                    <strong>Instrucción para el Usuario:</strong> Seleccione la respuesta que refleje el estado real de su obra. Cada opción suma puntos de riesgo al algoritmo IERF en el Tablero Superior.
-                </p>
-            </div>
-
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-                <div>
-                    <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Cuestionario Diagnóstico Medible</span>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">02. Evaluador de Riesgo por Etapas (15 Reactivos)</h2>
-                    <p class="text-slate-600 text-sm mt-1">Navegue por las 5 pestañas de etapas para contestar las 15 preguntas de auditoría.</p>
-                </div>
-
-                <!-- Tabs del Cuestionario -->
-                <div class="flex flex-wrap gap-1.5 bg-slate-200/60 p-1.5 rounded-xl border border-slate-300">
-                    <button onclick="switchEvalTab(1)" id="tab-eval-1" class="eval-tab-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-900 text-white transition-all">E1: Planeación</button>
-                    <button onclick="switchEvalTab(2)" id="tab-eval-2" class="eval-tab-btn text-xs font-bold px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-300 transition-all">E2: Presupuesto</button>
-                    <button onclick="switchEvalTab(3)" id="tab-eval-3" class="eval-tab-btn text-xs font-bold px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-300 transition-all">E3: Contratación</button>
-                    <button onclick="switchEvalTab(4)" id="tab-eval-4" class="eval-tab-btn text-xs font-bold px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-300 transition-all">E4: Ejecución</button>
-                    <button onclick="switchEvalTab(5)" id="tab-eval-5" class="eval-tab-btn text-xs font-bold px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-300 transition-all">E5: Entrega</button>
-                </div>
-            </div>
-
-            <!-- Panel Contenedor de Preguntas Medibles -->
-            <div class="card p-6 sm:p-8 border-2 border-slate-300 bg-white shadow-md rounded-2xl">
-                <div id="eval-questions-container" class="space-y-8">
-                    <!-- JS inyecta dinámicamente las preguntas de la pestaña activa -->
-                </div>
-
-                <!-- Barra de Navegación del Cuestionario -->
-                <div class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div class="text-xs font-bold text-slate-500">
-                        Progreso de Respuesta: <span id="eval-progress-text" class="text-blue-900 font-black">0 / 15 Respondidas</span>
-                    </div>
-                    <div class="flex space-x-3">
-                        <button id="btn-prev-tab" onclick="prevEvalTab()" class="px-4 py-2 text-xs font-bold border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-100 disabled:opacity-50">
-                            ← Etapa Anterior
-                        </button>
-                        <button id="btn-next-tab" onclick="nextEvalTab()" class="px-5 py-2 text-xs font-bold bg-blue-900 hover:bg-blue-950 text-white rounded-lg shadow">
-                            Siguiente Etapa →
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- SECCIÓN 03: RADIOGRAFÍA DE HALLAZGOS Y ANÁLISIS ESTADÍSTICO ASF -->
-        <section id="hallazgos-asf" class="scroll-mt-20">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- Columna Izquierda: Información de Hallazgos -->
-                <div class="lg:col-span-5 space-y-5">
-                    <div class="flex items-center space-x-2">
-                        <span class="badge-read px-2.5 py-1 rounded-md text-xs font-black uppercase">Modo Lectura</span>
-                        <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Estadística ASF & ORFIS</span>
-                    </div>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900">03. Radiografía de Irregularidades en Obras</h2>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        El 88% de los montos observados resarcitorios por la Auditoría Superior de la Federación (ASF) se concentran en la fase de ejecución. Sin embargo, el análisis causa-raíz demuestra que las fallas nacen por proyectos ejecutivos deficientes en la etapa de planeación (Art. 23 RLOPSRM).
-                    </p>
-
-                    <div class="space-y-3">
-                        <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-xs font-bold text-slate-800">Fallas en Proyecto Ejecutivo</span>
-                                <span class="text-xs font-extrabold text-red-600">77.7% Imprevistos</span>
-                            </div>
-                            <p class="text-[11px] text-slate-500">Estudios geotécnicos o planos incompletos que forzaron adendas y retrasos.</p>
-                        </div>
-                        <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-xs font-bold text-slate-800">Falta de Liberación de Predios</span>
-                                <span class="text-xs font-extrabold text-amber-600">21.4% Parálisis</span>
-                            </div>
-                            <p class="text-[11px] text-slate-500">Derecho de vía sin formalizar que derivó en parálisis de maquinaria.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna Derecha: Gráfico Responsive Chart.js -->
-                <div class="lg:col-span-7 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="mb-4">
-                        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Frecuencia de Observaciones por Etapa de Obra (%)</h3>
-                        <p class="text-xs text-slate-400">Muestra consolidada de expedientes auditados en Cuentas Públicas recientes</p>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="asfIncidenceChart"></canvas>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- SECCIÓN 04: LEAD MAGNET & CONSULTORÍA CON CATU FISCALIZACIÓN (ENVÍO DIRECTO A CORREO) -->
-        <section id="lead-form-section" class="scroll-mt-20">
-            <div class="hero-gradient rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
-                <div class="max-w-3xl mx-auto text-center space-y-6">
-                    <span class="px-3 py-1 text-xs font-extrabold bg-amber-500 text-slate-950 rounded-full uppercase tracking-widest inline-block">
-                        Servicio Profesional de Solventación CATU
-                    </span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-                        ¿Su obra presentó un IERF elevado o requiere solventar pliegos de observaciones?
-                    </h2>
-                    <p class="text-slate-300 text-sm md:text-base leading-relaxed">
-                        Solicite su dictamen técnico-jurídico preventivo. La información ingresada se canaliza inmediatamente al centro de auditoría: <strong class="text-amber-400">centro.catu.@gmail.com</strong>
-                    </p>
-
-                    <!-- Target Lead Form (Formspree / Web3Forms Integrado para enviar a centro.catu.@gmail.com) -->
-                    <form id="catuLeadForm" action="https://formspree.io/f/mljebgql" method="POST" onsubmit="handleLeadSubmit(event)" class="bg-slate-900/90 border border-slate-700 p-6 rounded-2xl text-left space-y-4 max-w-xl mx-auto backdrop-blur-md shadow-lg">
-                        
-                        <!-- Inputs Ocultos de Configuración IERF -->
-                        <input type="hidden" name="score_ierf_obtenido" id="form-score-input" value="0">
-                        <input type="hidden" name="diagnostico_nivel" id="form-level-input" value="No evaluado aún">
-                        <input type="hidden" name="_subject" value="🚨 Nuevo Prospecto CATU - Diagnóstico IERF 2026">
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-xs font-bold text-slate-300 block mb-1">Nombre Completo *</label>
-                                <input type="text" name="nombre" required placeholder="Ing. / Lic. Nombre" class="w-full px-3.5 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-amber-400">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-slate-300 block mb-1">Correo Institucional / Personal *</label>
-                                <input type="email" name="email" required placeholder="usuario@dependencia.gob.mx" class="w-full px-3.5 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-amber-400">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-xs font-bold text-slate-300 block mb-1">Entidad / Municipio / Empresa</label>
-                                <input type="text" name="entidad" required placeholder="Ej. Municipio de Chilpancingo" class="w-full px-3.5 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-amber-400">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-slate-300 block mb-1">Teléfono de Contacto (WhatsApp)</label>
-                                <input type="tel" name="telefono" required placeholder="(747) 000-0000" class="w-full px-3.5 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-amber-400">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-bold text-slate-300 block mb-1">Monto Estimado de la Obra (MDP)</label>
-                            <select name="monto_obra" class="w-full px-3.5 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-amber-400">
-                                <option value="$1M - $10M MDP">$1M - $10M MDP</option>
-                                <option value="$10M - $50M MDP">$10M - $50M MDP</option>
-                                <option value="$50M - $200M MDP">$50M - $200M MDP</option>
-                                <option value="Más de $200M MDP">Más de $200M MDP</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-bold text-slate-300 block mb-1">Observaciones o Situación Actual de Auditoría</label>
-                            <textarea name="mensaje_adicional" rows="2" placeholder="Describa brevemente si tiene un pliego de observaciones, falta de finiquito o revisión activa..." class="w-full px-3.5 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-amber-400"></textarea>
-                        </div>
-
-                        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow transition-all transform hover:-translate-y-0.5">
-                            📩 Enviar Solicitud a centro.catu.@gmail.com & Recibir Dictamen
-                        </button>
-                    </form>
-
-                    <!-- Mensaje de Confirmación tras enviar -->
-                    <div id="submitConfirmation" class="hidden bg-emerald-950 border border-emerald-500 p-6 rounded-2xl text-emerald-300 text-xs text-center space-y-2 max-w-xl mx-auto">
-                        <span class="text-2xl">✅</span>
-                        <h4 class="font-extrabold text-white text-base">¡Información Canalizada Exitosamente!</h4>
-                        <p>Los resultados de su evaluación IERF y la solicitud de dictamen han sido enviados al correo del equipo técnico: <strong>centro.catu.@gmail.com</strong>.</p>
-                        <p class="text-slate-400">Un auditor sénior se pondrá en contacto con usted en un plazo no mayor a 24 horas.</p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 py-10 px-4 mt-20 text-xs">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-                <strong class="text-white text-sm font-bold block mb-1">CATU FISCALIZACIÓN SUPERIOR 2026</strong>
-                <p>Especialistas en Auditoría Preventiva, LOPSRM, RLOPSRM y Defensa Resarcitoria de Obra Pública.</p>
-                <p class="text-amber-400 mt-1 font-mono">Contacto directo: centro.catu.@gmail.com</p>
-            </div>
-            <div class="flex space-x-6 font-semibold">
-                <a href="#hero-ierf" class="hover:text-amber-400">Tablero IERF</a>
-                <a href="#ciclo-informativo" class="hover:text-amber-400">Ciclo de 5 Etapas</a>
-                <a href="#seccion-evaluacion" class="hover:text-amber-400">Evaluador Medible</a>
-                <a href="#hallazgos-asf" class="hover:text-amber-400">Estadística ASF</a>
-            </div>
+      <article class="legal" id="legal">
+        <div class="legal-top">
+          <div>
+            <div class="law" id="legal-law"></div>
+            <h3 id="legal-title"></h3>
+          </div>
+          <button type="button" class="toggle-legal" id="toggle-legal">Ocultar marco</button>
         </div>
-    </footer>
+        <div class="legal-body">
+          <p id="legal-desc"></p>
+          <ul id="legal-items"></ul>
+        </div>
+      </article>
 
-    <!-- JAVASCRIPT LOGIC & DATA -->
-    <script>
-        // -------------------------------------------------------------
-        // DATA BASE 1: MODO LECTURA (5 ETAPAS DEL CICLO DE OBRA PÚBLICA)
-        // -------------------------------------------------------------
-        const readingStagesData = {
-            1: {
-                title: 'Etapa 1: Planeación y Proyecto Ejecutivo',
-                law: 'Artículos 18, 21 y 24 de la LOPSRM | Art. 23 RLOPSRM',
-                desc: 'Previo a cualquier procedimiento de licitación, el ente público está obligado a contar con el Proyecto Ejecutivo 100% terminado, memoria de cálculo, estudios de geotecnia y la liberación legal del predio.',
-                criticalItems: [
-                    'Dictamen de Liberación de Derecho de Vía o Escritura del Inmueble (Art. 19 LOPSRM).',
-                    'Estudios Geotécnicos, Topográficos e Hidrológicos validados por especialista.',
-                    'Manifestación de Impacto Ambiental (MIA) y licencias municipales vigentes.',
-                    'Análisis Costo-Beneficio registrado en la Cartera de Inversión.'
-                ]
-            },
-            2: {
-                title: 'Etapa 2: Presupuestación y Programación (PAO)',
-                law: 'Artículos 21 y 23 de la LOPSRM | Cartera de Inversión',
-                desc: 'Toda obra debe estar inscrita formalmente en el Programa Anual de Obras (PAO) con suficiencia presupuestal aprobada, garantizando el flujo de recursos para evitar suspensiones arbitrarias.',
-                criticalItems: [
-                    'Oficio de Autorización Presupuestal e integración formal al PAO.',
-                    'Catálogo de conceptos de obra con unidades de medida y volúmenes verificados.',
-                    'Calendario de ejecución y erogaciones financieras programadas.',
-                    'Dictamen de factibilidad técnica y económica del proyecto.'
-                ]
-            },
-            3: {
-                title: 'Etapa 3: Licitación, Adjudicación y Contratación',
-                law: 'Artículos 27, 31, 38, 44 y 45 del RLOPSRM',
-                desc: 'Garantiza la imparcialidad en la adjudicación. Requiere la verificación de requisitos técnicos (Art. 44) y económicos (Art. 45-A para Precios Unitarios o 45-B para Precio Alzado), así como la correcta emisión de fianzas.',
-                criticalItems: [
-                    'Fundamentación legal del dictamen de excepción si no fue Licitación Pública.',
-                    'Integración completa del Factor de Salario Real (FASAR) con jornada impositiva.',
-                    'Carta compromiso de disponibilidad de maquinaria nueva o arrendada.',
-                    'Pólizas de Fianzas de Anticipo, Cumplimiento y Vicios Ocultos alineadas al contrato.'
-                ]
-            },
-            4: {
-                title: 'Etapa 4: Ejecución, Supervisión y Bitácora BESOP',
-                law: 'Artículos 24-III, 113 y 115 del RLOPSRM',
-                desc: 'La fase de mayor incidencia en pliegos resarcitorios. Exige la asignación por escrito de la Residencia de Obra, administración diaria de la Bitácora BESOP y generadores con croquis exactos.',
-                criticalItems: [
-                    'Oficios formales de designación de Residencia y Superintendencia.',
-                    'Apertura y llenado continuo de la Bitácora Electrónica (BESOP) sin retrasos.',
-                    'Estimaciones de obra soportadas con números generadores, croquis y fotos.',
-                    'Informes de laboratorio independiente acreditado (pruebas de resistencia de concreto/asfalto).'
-                ]
-            },
-            5: {
-                title: 'Etapa 5: Entrega Final, Acta Circunstanciada y Finiquito',
-                law: 'Artículos 64 LOPSRM | Art. 164 del RLOPSRM',
-                desc: 'Cierre del vínculo contractual. Obliga a formalizar el Acta de Entrega-Recepción dentro de los 10 días siguientes a la conclusión física y estructurar el Finiquito de liquidación de saldos.',
-                criticalItems: [
-                    'Aviso por escrito de la contratista sobre la terminación física de los trabajos.',
-                    'Acta de Entrega-Recepción suscrita por Residencia, Contratista y Órgano de Control.',
-                    'Elaboración del Finiquito de Obra extinguiendo los derechos y obligaciones.',
-                    'Sustitución o entrega de la Fianza de Vicios Ocultos (vigencia 12 meses).'
-                ]
-            }
-        };
+      <div id="questions"></div>
 
-        // -------------------------------------------------------------
-        // DATA BASE 2: CUESTIONARIO DIAGNÓSTICO MEDIBLE (15 PREGUNTAS)
-        // -------------------------------------------------------------
-        const questionsData = [
-            // ETAPA 1: PLANEACIÓN (Weight: 15%)
-            { id: 1, stage: 1, text: '¿Cuenta con el Proyecto Ejecutivo 100% firmado por especialistas antes de licitar?', law: 'Art. 23 RLOPSRM', options: [
-                { text: 'A) Proyecto completo con memorias y planos firmados', pts: 0, class: 'selected-low' },
-                { text: 'B) Proyecto básico; se realizan ajustes sobre la marcha', pts: 5, class: 'selected-med' },
-                { text: 'C) Sin proyecto formal; solo croquis de catálogo', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 2, stage: 1, text: '¿Posee la acreditación jurídica del predio o la liberación formal del derecho de vía?', law: 'Art. 19 LOPSRM', options: [
-                { text: 'A) Escrituras públicas o convenios formalizados', pts: 0, class: 'selected-low' },
-                { text: 'B) En trámite notarial o acuerdo verbal en proceso', pts: 5, class: 'selected-med' },
-                { text: 'C) Sin documentación o con conflicto ejidal activo', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 3, stage: 1, text: '¿Cuenta con la Manifestación de Impacto Ambiental (MIA) y licencias aprobadas?', law: 'Art. 21 LOPSRM', options: [
-                { text: 'A) Permisos y MIA autorizados antes del inicio', pts: 0, class: 'selected-low' },
-                { text: 'B) En trámite pero con trabajos físicos iniciados', pts: 5, class: 'selected-med' },
-                { text: 'C) Sin trámites de impacto ambiental ni licencias', pts: 10, class: 'selected-high' }
-            ]},
+      <div class="nav-stage">
+        <button type="button" class="btn btn-ghost" id="btn-prev">Etapa anterior</button>
+        <button type="button" class="btn btn-gold" id="btn-next">Siguiente etapa</button>
+      </div>
+    </section>
 
-            // ETAPA 2: PRESUPUESTACIÓN (Weight: 15%)
-            { id: 4, stage: 2, text: '¿La obra está autorizada e inscrita en el Programa Anual de Obras (PAO)?', law: 'Art. 21 LOPSRM', options: [
-                { text: 'A) Aprobada en PAO original con oficio financiero', pts: 0, class: 'selected-low' },
-                { text: 'B) Incluida mediante modificación al PAO sin dictamen', pts: 5, class: 'selected-med' },
-                { text: 'C) Obra emergente no registrada en el PAO oficial', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 5, stage: 2, text: '¿El catálogo de conceptos cuenta con volumen de obra debidamente conciliado?', law: 'Art. 24 RLOPSRM', options: [
-                { text: 'A) Levantamiento exacto soportado por números generadores', pts: 0, class: 'selected-low' },
-                { text: 'B) Estimación aproximada con probables volúmenes adicionales', pts: 5, class: 'selected-med' },
-                { text: 'C) Volúmenes alzados sin soporte de cálculo geotécnico', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 6, stage: 2, text: '¿Se verificó la suficiencia presupuestal antes de emitir la convocatoria?', law: 'Art. 24 LOPSRM', options: [
-                { text: 'A) Suficiencia presupuestal total respaldada', pts: 0, class: 'selected-low' },
-                { text: 'B) Suficiencia parcial sujeta a ministraciones federales', pts: 5, class: 'selected-med' },
-                { text: 'C) Iniciada sin asignación presupuestal formal', pts: 10, class: 'selected-high' }
-            ]},
+    <section id="screen-resultado" class="screen">
+      <p class="section-title">Dictamen IERF</p>
+      <div class="result-head">
+        <div class="ring-wrap">
+          <div class="ring" id="ring" style="--p:0"></div>
+          <div class="ring-inner">
+            <div class="val" id="ring-val">—</div>
+            <div class="sub">IERF</div>
+          </div>
+        </div>
+        <div class="verdict">
+          <span class="chip" id="verdict-badge">Dictamen pendiente</span>
+          <h3 id="verdict-title">Aún no hay base suficiente</h3>
+          <p id="verdict-desc"></p>
+          <div class="chips">
+            <span class="chip" id="chip-risk"></span>
+            <span class="chip" id="chip-action"></span>
+            <span class="chip" id="chip-n"></span>
+          </div>
+        </div>
+      </div>
 
-            // ETAPA 3: CONTRATACIÓN (Weight: 15%)
-            { id: 7, stage: 3, text: '¿La adjudicación directa o invitación restringida cuenta con dictamen legal de excepción?', law: 'Art. 42 LOPSRM', options: [
-                { text: 'A) Licitación pública o dictamen de excepción autorizado', pts: 0, class: 'selected-low' },
-                { text: 'B) Invitación restringida con firmas incompletas de comité', pts: 5, class: 'selected-med' },
-                { text: 'C) Adjudicación directa sin fundamento ni acuerdo de comité', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 8, stage: 3, text: '¿El análisis de Salario Real (FASAR) se calculó conforme a la jornada impositiva legal?', law: 'Art. 45-A RLOPSRM', options: [
-                { text: 'A) FASAR respaldado con cuotas IMSS y tabulador legal', pts: 0, class: 'selected-low' },
-                { text: 'B) Presentado con discrepancias en días pagados vs laborados', pts: 5, class: 'selected-med' },
-                { text: 'C) Factor global sin desglose impositivo ni memoria', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 9, stage: 3, text: '¿Las pólizas de fianzas (anticipo, cumplimiento) corresponden exactamente al contrato?', law: 'Art. 48 LOPSRM', options: [
-                { text: 'A) Fianzas emitidas, vigentes y montos corregidos', pts: 0, class: 'selected-low' },
-                { text: 'B) Entregadas pero con desfase en fechas o nombres', pts: 5, class: 'selected-med' },
-                { text: 'C) Sin entrega de fianzas o montos inferiores a los legales', pts: 10, class: 'selected-high' }
-            ]},
+      <p class="section-title">Exposición por etapa</p>
+      <div class="stage-bars" id="stage-bars"></div>
 
-            // ETAPA 4: EJECUCIÓN & SUPERVISIÓN (Weight: 40%)
-            { id: 10, stage: 4, text: '¿Cómo se administra el registro en la Bitácora Electrónica de Obra (BESOP)?', law: 'Art. 113 RLOPSRM', options: [
-                { text: 'A) Notas de apertura, avance y cierre registradas al día', pts: 0, class: 'selected-low' },
-                { text: 'B) Llenado quincenal o mensual acumulado fuera de tiempo', pts: 5, class: 'selected-med' },
-                { text: 'C) Bitácora inexistente, sin firmas o llena al final', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 11, stage: 4, text: '¿Las estimaciones autorizadas cuentan con números generadores, croquis y fotos?', law: 'Art. 132 RLOPSRM', options: [
-                { text: 'A) Generadores con croquis exactos y soporte fotográfico', pts: 0, class: 'selected-low' },
-                { text: 'B) Generadores con números pero sin croquis de ubicación', pts: 5, class: 'selected-med' },
-                { text: 'C) Pagos autorizados con cifras globales sin soporte técnico', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 12, stage: 4, text: '¿Se respaldan la calidad de materiales con ensayos de laboratorio independiente?', law: 'Normas SCT / ORFIS', options: [
-                { text: 'A) Pruebas de laboratorio acreditado por lote y concepto', pts: 0, class: 'selected-low' },
-                { text: 'B) Certificados del proveedor sin laboratorio directo en sitio', pts: 5, class: 'selected-med' },
-                { text: 'C) Sin ensayos físicos de resistencia de concretos/asfaltos', pts: 10, class: 'selected-high' }
-            ]},
+      <p class="section-title">Tres acciones inmediatas</p>
+      <div class="findings" id="findings"></div>
 
-            // ETAPA 5: ENTREGA FINAL & FINIQUITO (Weight: 15%)
-            { id: 13, stage: 5, text: '¿Se formalizó el Acta de Entrega-Recepción en los 10 días posteriores a la conclusión?', law: 'Art. 164 RLOPSRM', options: [
-                { text: 'A) Acta circunstanciada firmada en tiempo con el comité', pts: 0, class: 'selected-low' },
-                { text: 'B) Obra en uso pero con acta firmada extemporáneamente', pts: 5, class: 'selected-med' },
-                { text: 'C) Obra inconclusa o usada sin acta de entrega formal', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 14, stage: 5, text: '¿Se elaboró el Finiquito de Obra extinguiendo formalmente los derechos y obligaciones?', law: 'Art. 64 LOPSRM', options: [
-                { text: 'A) Finiquito formalizado con saldo en cero o devuelto', pts: 0, class: 'selected-low' },
-                { text: 'B) Acta de finiquito en borrador pendiente de firma', pts: 5, class: 'selected-med' },
-                { text: 'C) Obra sin finiquito tras más de 60 días de concluida', pts: 10, class: 'selected-high' }
-            ]},
-            { id: 15, stage: 5, text: '¿Se exigió la Fianza de Vicios Ocultos vigente por 12 meses antes del finiquito?', law: 'Art. 66 LOPSRM', options: [
-                { text: 'A) Fianza de vicios ocultos entregada y autorizada', pts: 0, class: 'selected-low' },
-                { text: 'B) Garantía sustituida por carta retención provisional', pts: 5, class: 'selected-med' },
-                { text: 'C) Sin fianza de vicios ocultos; obra desprotegida', pts: 10, class: 'selected-high' }
-            ]}
-        ];
+      <div class="cta-row">
+        <button type="button" class="btn btn-gold" id="btn-to-lead">Solicitar dictamen CATU</button>
+        <button type="button" class="btn btn-ghost" id="btn-print">Imprimir / PDF</button>
+        <button type="button" class="btn btn-ghost" id="btn-share">Compartir herramienta</button>
+        <button type="button" class="btn btn-ghost" id="btn-reset">Empezar de nuevo</button>
+      </div>
 
-        // User Answers State: Array of 15 selected points (null = unanswered)
-        let userAnswers = new Array(15).fill(null);
-        let currentEvalTab = 1;
-        let globalIERFScore = 0;
-        let globalRiskTitle = 'No Evaluado';
+      <div id="asf-block">
+        <p class="section-title">Radiografía de irregularidades</p>
+        <h2 class="block">Dónde suele nacer el pliego</h2>
+        <p class="caveat" id="asf-caveat">Patrón observado en fiscalización de obra pública. No sustituye una cuenta pública específica; sirve para priorizar control.</p>
+        <div class="asf-grid">
+          <article class="asf-card"><div class="n">88%</div><h4>Montos resarcitorios en ejecución</h4><p>La falla suele nacer en planeación (Art. 23 RLOPSRM), no en la cuadrilla.</p></article>
+          <article class="asf-card"><div class="n">77.7%</div><h4>Imprevistos por proyecto deficiente</h4><p>Estudios o planos incompletos que fuerzan adendas y retrasos.</p></article>
+          <article class="asf-card"><div class="n">21.4%</div><h4>Parálisis por predio o vía</h4><p>Liberación no formalizada que detiene maquinaria y genera sobrecosto.</p></article>
+        </div>
+        <div id="asf-bars"></div>
+      </div>
 
-        // -------------------------------------------------------------
-        // FUNCTIONS: MODO LECTURA
-        // -------------------------------------------------------------
-        function selectReadingStage(stageNum) {
-            document.querySelectorAll('.stage-nav-btn').forEach((btn, idx) => {
-                if (idx + 1 === stageNum) {
-                    btn.className = 'stage-nav-btn p-3.5 rounded-xl text-left border-2 border-blue-900 bg-blue-900 text-white font-medium transition-all shadow-sm';
-                } else {
-                    btn.className = 'stage-nav-btn p-3.5 rounded-xl text-left border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-300 font-medium transition-all';
-                }
-            });
+      <p class="section-title">Suite CATU</p>
+      <div class="suite">
+        <a href="https://aminramirezvilla-hue.github.io/Bitacora-de-Obra_ChecklistPublic/"><strong>Checklist Bitácora</strong><span>Cumplimiento BESOP por fase</span></a>
+        <a href="https://aminramirezvilla-hue.github.io/Auditoria_Express_CATU/"><strong>Auditoría Express</strong><span>6 vicios críticos · IVPP</span></a>
+        <a href="https://aminramirezvilla-hue.github.io/reportes-supervision-catu./"><strong>Reportes de Supervisión</strong><span>Expediente S.T.A.R.T. · Art. 53</span></a>
+      </div>
+    </section>
 
-            const data = readingStagesData[stageNum];
-            const container = document.getElementById('reading-stage-card');
+    <section id="screen-lead" class="screen">
+      <p class="section-title">Canalización</p>
+      <h2 class="block">Dictamen técnico-jurídico preventivo</h2>
+      <p class="lead" style="margin-bottom:0.9rem">
+        El IERF viaja con la solicitud. Un auditor sénior responde en un plazo no mayor a 24 horas hábiles a
+        <strong>centro.catu@gmail.com</strong>.
+      </p>
 
-            let itemsHtml = data.criticalItems.map(item => `
-                <li class="flex items-start space-x-2 text-xs text-slate-700">
-                    <span class="text-blue-900 font-bold">•</span>
-                    <span>${item}</span>
-                </li>
-            `).join('');
+      <form class="form" id="lead-form" action="https://formspree.io/f/mljebgql" method="POST">
+        <input type="hidden" name="_subject" value="Prospecto CATU · Diagnóstico IERF" />
+        <input type="hidden" name="score_ierf_obtenido" id="form-score" />
+        <input type="hidden" name="diagnostico_nivel" id="form-level" />
 
-            container.innerHTML = `
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-3 mb-4 gap-2">
-                    <div>
-                        <span class="text-xs font-bold text-amber-600 uppercase tracking-widest block">${data.law}</span>
-                        <h3 class="text-xl font-extrabold text-slate-900">${data.title}</h3>
-                    </div>
-                    <span class="px-3 py-1 text-xs font-bold bg-blue-100 text-blue-900 rounded-full border border-blue-200">Requisito Obligatorio</span>
-                </div>
-                <p class="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">${data.desc}</p>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Requisitos Críticos de Auditoría Superior:</h4>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        ${itemsHtml}
-                    </ul>
-                </div>
-            `;
-        }
+        <div class="grid-2">
+          <label>Nombre completo *
+            <input type="text" name="nombre" required placeholder="Ing. / Lic. Nombre" autocomplete="name" />
+          </label>
+          <label>Correo institucional *
+            <input type="email" name="email" required placeholder="usuario@dependencia.gob.mx" autocomplete="email" />
+          </label>
+        </div>
+        <div class="grid-2">
+          <label>Cargo
+            <input type="text" name="cargo" placeholder="Residente / Director de Obras / OIC" />
+          </label>
+          <label>Entidad / municipio / empresa *
+            <input type="text" name="entidad" required placeholder="Municipio de Chilpancingo" />
+          </label>
+        </div>
+        <div class="grid-2">
+          <label>Teléfono (WhatsApp) *
+            <input type="tel" name="telefono" required placeholder="747 000 0000" autocomplete="tel" />
+          </label>
+          <label>Monto estimado de la obra
+            <select name="monto_obra">
+              <option value="$1M - $10M MDP">$1M – $10M MDP</option>
+              <option value="$10M - $50M MDP">$10M – $50M MDP</option>
+              <option value="$50M - $200M MDP">$50M – $200M MDP</option>
+              <option value="Más de $200M MDP">Más de $200M MDP</option>
+            </select>
+          </label>
+        </div>
+        <label>Contexto adicional
+          <textarea name="mensaje_adicional" rows="3" placeholder="Pliego de observaciones, etapa actual, dependencia fiscalizadora…"></textarea>
+        </label>
+        <label class="check">
+          <input type="checkbox" name="privacidad" required />
+          <span>Acepto el <a href="#privacidad" id="privacy-toggle">Aviso de Privacidad</a> y el uso de estos datos para contacto técnico de CATU.</span>
+        </label>
+        <button type="submit" class="btn btn-gold btn-block">Enviar solicitud</button>
+      </form>
 
-        // -------------------------------------------------------------
-        // FUNCTIONS: CUESTIONARIO DIAGNÓSTICO MEDIBLE
-        // -------------------------------------------------------------
-        function renderEvalTab(tabNum) {
-            currentEvalTab = tabNum;
+      <div class="privacy" id="privacy">
+        CATU trata nombre, correo, cargo, entidad y teléfono únicamente para contactarlo respecto del dictamen IERF.
+        No se cede a terceros ajenos a la prestación del servicio. Puede solicitar acceso, rectificación o cancelación en centro.catu@gmail.com.
+        El puntaje se calcula en su navegador; las respuestas se envían solo si usted manda este formulario.
+      </div>
 
-            // Update tab UI buttons
-            for (let i = 1; i <= 5; i++) {
-                const btn = document.getElementById(`tab-eval-${i}`);
-                if (i === tabNum) {
-                    btn.className = 'eval-tab-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-900 text-white shadow transition-all';
-                } else {
-                    btn.className = 'eval-tab-btn text-xs font-bold px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-300 transition-all';
-                }
-            }
+      <div class="confirm" id="lead-ok">
+        <h3>Solicitud canalizada</h3>
+        <p>Los resultados IERF se enviaron al equipo técnico. Un auditor sénior se pondrá en contacto en un plazo no mayor a 24 horas hábiles.</p>
+        <p id="lead-ok-extra"></p>
+      </div>
 
-            // Filter questions for this stage
-            const stageQuestions = questionsData.filter(q => q.stage === tabNum);
-            const container = document.getElementById('eval-questions-container');
-            container.innerHTML = '';
+      <div class="cta-row" style="margin-top:0.9rem">
+        <button type="button" class="btn btn-ghost" id="lead-back">Volver al dictamen</button>
+      </div>
+    </section>
+  </main>
 
-            stageQuestions.forEach(q => {
-                const qIndex = q.id - 1;
-                const currentAnswer = userAnswers[qIndex];
+  <footer class="app-foot">
+    Centro de Auditoría Técnica y Urbana · Monitor IERF – CATU<br />
+    <a href="mailto:centro.catu@gmail.com">centro.catu@gmail.com</a>
+    · LOPSRM / RLOPSRM · Herramienta preventiva, no dictamen pericial
+  </footer>
 
-                let optionsHtml = q.options.map((opt) => {
-                    const isSelected = currentAnswer === opt.pts;
-                    let selectedClass = isSelected ? opt.class : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-400';
-
-                    return `
-                        <div onclick="selectAnswer(${qIndex}, ${opt.pts})" class="option-pill p-3.5 rounded-xl border-2 text-xs font-medium ${selectedClass} flex items-center justify-between">
-                            <span>${opt.text}</span>
-                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded ${opt.pts === 0 ? 'bg-green-100 text-green-800' : (opt.pts === 5 ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800')}">
-                                +${opt.pts} pts
-                            </span>
-                        </div>
-                    `;
-                }).join('');
-
-                container.innerHTML += `
-                    <div class="space-y-3 pb-6 border-b border-slate-100 last:border-none last:pb-0">
-                        <div class="flex justify-between items-start">
-                            <h4 class="text-sm font-bold text-slate-900">
-                                <span class="text-blue-900 font-mono">Reactivo #${q.id.toString().padStart(2, '0')}:</span> ${q.text}
-                            </h4>
-                            <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-1 rounded border border-amber-200">${q.law}</span>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            ${optionsHtml}
-                        </div>
-                    </div>
-                `;
-            });
-
-            // Update Prev/Next buttons
-            document.getElementById('btn-prev-tab').disabled = (tabNum === 1);
-            document.getElementById('btn-next-tab').innerText = (tabNum === 5) ? 'Finalizar Evaluación ↑' : 'Siguiente Etapa →';
-            updateAnswerProgress();
-        }
-
-        function selectAnswer(qIndex, pts) {
-            userAnswers[qIndex] = pts;
-            renderEvalTab(currentEvalTab);
-            calculateIERFScore();
-        }
-
-        function switchEvalTab(tabNum) {
-            renderEvalTab(tabNum);
-        }
-
-        function prevEvalTab() {
-            if (currentEvalTab > 1) renderEvalTab(currentEvalTab - 1);
-        }
-
-        function nextEvalTab() {
-            if (currentEvalTab < 5) {
-                renderEvalTab(currentEvalTab + 1);
-            } else {
-                scrollToDiagnostic();
-            }
-        }
-
-        function updateAnswerProgress() {
-            const answeredCount = userAnswers.filter(a => a !== null).length;
-            document.getElementById('eval-progress-text').innerText = `${answeredCount} / 15 Respondidas`;
-        }
-
-        function scrollToDiagnostic() {
-            document.getElementById('hero-ierf').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // -------------------------------------------------------------
-        // HERO IERF ALGORITHM CALCULATOR
-        // -------------------------------------------------------------
-        function calculateIERFScore() {
-            const getStageAvg = (startIdx, endIdx) => {
-                const sub = userAnswers.slice(startIdx, endIdx + 1);
-                const valid = sub.filter(a => a !== null);
-                if (valid.length === 0) return 0;
-                const sum = valid.reduce((acc, curr) => acc + curr, 0);
-                const maxPossible = sub.length * 10;
-                return (sum / maxPossible) * 100;
-            };
-
-            const s1 = getStageAvg(0, 2);   // Planeación
-            const s2 = getStageAvg(3, 5);   // Presupuesto
-            const s3 = getStageAvg(6, 8);   // Contratación
-            const s4 = getStageAvg(9, 11);  // Ejecución
-            const s5 = getStageAvg(12, 14); // Entrega
-
-            // Weighted IERF Index (0 to 100)
-            globalIERFScore = Math.round((s1 * 0.15) + (s2 * 0.15) + (s3 * 0.15) + (s4 * 0.40) + (s5 * 0.15));
-
-            // Update Hero Visual Elements
-            const scoreNumEl = document.getElementById('hero-score-num');
-            const progressBarEl = document.getElementById('hero-progress-bar');
-            const badgeEl = document.getElementById('hero-status-badge');
-            const titleEl = document.getElementById('hero-status-title');
-            const descEl = document.getElementById('hero-status-desc');
-            const riskLevelEl = document.getElementById('hero-risk-level');
-            const actionNeededEl = document.getElementById('hero-action-needed');
-
-            // Form Hidden Inputs Sync
-            document.getElementById('form-score-input').value = globalIERFScore;
-
-            scoreNumEl.innerText = globalIERFScore;
-            progressBarEl.style.width = `${globalIERFScore}%`;
-
-            if (globalIERFScore <= 25) {
-                badgeEl.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
-                badgeEl.innerText = 'Riesgo Bajo / Solvente';
-                titleEl.innerText = 'Expediente Fuerte & Cumplimiento Normativo';
-                titleEl.className = 'text-base font-extrabold text-emerald-400 mt-0.5';
-                descEl.innerText = 'El expediente técnico-financiero cumple sustancialmente con la LOPSRM y RLOPSRM. Mínima exposición a observaciones resarcitorias.';
-                riskLevelEl.innerText = 'Bajo (0 - 25 pts)';
-                riskLevelEl.className = 'font-bold text-emerald-400';
-                actionNeededEl.innerText = 'Custodia BESOP Preventiva';
-                globalRiskTitle = 'Riesgo Bajo (Solvente)';
-            } else if (globalIERFScore <= 60) {
-                badgeEl.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-amber-500/20 text-amber-400 border border-amber-500/40';
-                badgeEl.innerText = 'Riesgo Moderado / Alerta';
-                titleEl.innerText = 'Vulnerabilidad por Omisiones Documentales';
-                titleEl.className = 'text-base font-extrabold text-amber-400 mt-0.5';
-                descEl.innerText = 'Existen deficiencias en generadores, FASAR o bitácora. Probabilidad alta de Pliegos de Observación y Procedimientos de Responsabilidad (PRAS).';
-                riskLevelEl.innerText = 'Medio (26 - 60 pts)';
-                riskLevelEl.className = 'font-bold text-amber-400';
-                actionNeededEl.innerText = 'Auditoría Preventiva CATU';
-                globalRiskTitle = 'Riesgo Moderado (Alerta de Pliego)';
-            } else {
-                badgeEl.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-red-500/20 text-red-400 border border-red-500/40';
-                badgeEl.innerText = 'Riesgo Crítico / Resarcitorio';
-                titleEl.innerText = 'Alta Exposición a Presunto Daño Patrimonial';
-                titleEl.className = 'text-base font-extrabold text-red-400 mt-0.5';
-                descEl.innerText = 'Falta grave por proyecto ejecutivo incompleto (Art. 23), predio no liberado o anomalías en estimaciones. Vulnerabilidad ante ASF/ORFIS.';
-                riskLevelEl.innerText = 'Alto (61 - 100 pts)';
-                riskLevelEl.className = 'font-bold text-red-400';
-                actionNeededEl.innerText = 'Solventación Legal Inmediata';
-                globalRiskTitle = 'Riesgo Crítico (Daño Patrimonial)';
-            }
-
-            document.getElementById('form-level-input').value = globalRiskTitle;
-        }
-
-        // -------------------------------------------------------------
-        // CHART.JS INITIALIZATION (ASF INCIDENCE)
-        // -------------------------------------------------------------
-        function initASFChart() {
-            const ctx = document.getElementById('asfIncidenceChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: [
-                        'E1: Proyecto Incompleto',
-                        'E1: Predio No Liberado',
-                        'E3: FASAR / APU Mal Integrado',
-                        'E4: Bitácora BESOP Extemporánea',
-                        'E4: Estimaciones Sin Croquis',
-                        'E5: Retraso de Finiquito'
-                    ],
-                    datasets: [{
-                        label: 'Incidencia de Observaciones ASF (%)',
-                        data: [36, 22, 45, 68, 55, 28],
-                        backgroundColor: [
-                            'rgba(30, 58, 138, 0.85)',
-                            'rgba(30, 58, 138, 0.75)',
-                            'rgba(217, 119, 6, 0.85)',
-                            'rgba(220, 38, 38, 0.85)',
-                            'rgba(220, 38, 38, 0.75)',
-                            'rgba(100, 116, 139, 0.75)'
-                        ],
-                        borderWidth: 0,
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ` Incidencia registrada: ${context.raw}% de expedientes`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 80,
-                            ticks: {
-                                callback: function(val) { return val + '%'; },
-                                font: { size: 10 }
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                font: { size: 9 },
-                                callback: function(val, index) {
-                                    const label = this.getLabelForValue(index);
-                                    return label.length > 18 ? label.substring(0, 16) + '...' : label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // -------------------------------------------------------------
-        // LEAD FORM SUBMISSION TO CORREO: centro.catu.@gmail.com
-        // -------------------------------------------------------------
-        function handleLeadSubmit(event) {
-            // Permitir que el formulario se envíe o procese mediante AJAX/Formspree
-            const form = document.getElementById('catuLeadForm');
-            const confirmationBox = document.getElementById('submitConfirmation');
-            
-            // Si deseas simulación/procesamiento visual inmediato:
-            event.preventDefault();
-
-            const formData = new FormData(form);
-
-            // Envío en segundo plano vía fetch (si Formspree u otro webhook está activo)
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                form.classList.add('hidden');
-                confirmationBox.classList.remove('hidden');
-            }).catch(error => {
-                // Fallback de demostración
-                form.classList.add('hidden');
-                confirmationBox.classList.remove('hidden');
-            });
-        }
-
-        function copiarEnlacePublicacion() {
-            const urlActual = window.location.href;
-            navigator.clipboard.writeText(urlActual).then(() => {
-                alert('¡Enlace copiado al portapapeles!\n\nYa puedes pegarlo directamente en tu publicación de Facebook o grupo de WhatsApp para que se genere la vista previa interactiva.');
-            }).catch(err => {
-                alert('URL de la herramienta: ' + urlActual);
-            });
-        }
-
-        // -------------------------------------------------------------
-        // INITIALIZATION ON LOAD
-        // -------------------------------------------------------------
-        window.onload = function() {
-            selectReadingStage(1);
-            renderEvalTab(1);
-            calculateIERFScore();
-            initASFChart();
-        };
-    </script>
-
-    <!-- Chosen Palette: Executive Navy & Warm Ivory (Fondo fcfbf9, Acentos 0f172a, 1e3a8a, y d97706) -->
-
-    <!-- Application Structure Plan: 
-        1. HERO SCOREBOARD (TABLERO IERF 2026): Algoritmo en vivo de cálculo de vulnerabilidad (0 a 100 pts) con barra de progreso dinámica y actualización en tiempo real de estatus de auditoría.
-        2. MODO LECTURA (MARCO NORMATIVO DE 5 ETAPAS): Fundamentación legal estructurada en pestañas para Planeación, Presupuesto, Contratación, Ejecución y Entrega (LOPSRM/RLOPSRM).
-        3. MODO EVALUACIÓN REQUERIDA (CUESTIONARIO MEDIBLE DE 15 REACTIVOS): Preguntas interactivas por pestañas con puntuación ponderada (+0, +5, +10 pts) que impactan directamente el Hero Scoreboard.
-        4. RADIOGRAFÍA DE INCIDENCIA ASF (CHART.JS): Gráfico estadístico horizontal/vertical que expone las causas raíz de pliegos resarcitorios.
-        5. FORMULARIO DE CAPTACIÓN (CANALIZADO A CORREO): Formulario integrado para enviar diagnósticos y prospectos de alta conversión directamente a centro.catu.@gmail.com.
-    -->
-
-    <!-- Visualization & Content Choices: 
-        - Hero Scoreboard: Visualizador Canvas-free con lógica JS reactiva.
-        - Open Graph Meta Tags: Integración de meta-etiquetas para que Facebook muestre la miniatura y descripción atractiva al pegar el enlace.
-        - Formspree Integration: Endpoint parametrizado para entrega directa al correo centro.catu.@gmail.com.
-        - Chart.js Bar Chart: Gráfico de barras de fallas en ejecuciones auditadas.
-    -->
-
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
