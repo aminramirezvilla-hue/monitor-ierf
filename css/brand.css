@@ -1,3 +1,23 @@
-.brand img, .brand-logo { height: 42px; width: auto; object-fit: contain; }
-.hero-logo { width: 148px; height: auto; margin: 0 auto 0.85rem; object-fit: contain; display: block; }
+.brand { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+.brand-logo {
+  height: 46px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  object-position: left center;
+  flex: 0 0 auto;
+}
+.hero-logo {
+  display: block;
+  width: 168px;
+  height: auto;
+  max-height: 126px;
+  margin: 0 auto 0.85rem;
+  object-fit: contain;
+}
 .print-sheet { display: none; }
+.print-logo {
+  width: 148px;
+  height: auto;
+  object-fit: contain;
+}
