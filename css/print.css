@@ -1,11 +1,11 @@
-/* Dictamen IERF · alto contraste para PDF / papel */
+/* Dictamen IERF · alto contraste y sin cortes de tarjeta */
 @media print {
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
-  @page { margin: 14mm 12mm; }
+  @page { margin: 12mm 12mm 14mm; }
   html, body {
     background: #ffffff !important;
     color: #0B1220 !important;
@@ -14,6 +14,7 @@
   .suite, #screen-home, #screen-stage, .badge {
     display: none !important;
   }
+  #screen-resultado > .section-title:last-of-type { display: none !important; }
   #screen-resultado, #screen-resultado.screen {
     display: block !important;
     animation: none;
@@ -26,9 +27,9 @@
     gap: 14px;
     border-bottom: 2px solid #C9A227;
     padding-bottom: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
-  .print-logo { width: 140px; height: auto; object-fit: contain; }
+  .print-logo { width: 132px; height: auto; object-fit: contain; }
   .print-meta { display: flex; flex-direction: column; gap: 2px; }
   .print-meta strong { font-size: 13px; color: #0B1220 !important; }
   .print-meta span { font-size: 11px; color: #1E293B !important; }
@@ -54,16 +55,40 @@
   .ring-inner .val { color: #7A5C00 !important; }
   .ring-inner .sub { color: #334155 !important; }
 
-  .sbar, .find, .asf-card {
+  .findings,
+  .stage-bars,
+  .asf-grid,
+  #asf-bars {
+    display: block !important;
+  }
+
+  .sbar, .find, .asf-card, .inc-bar {
+    color: #0B1220 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+  }
+  .find, .asf-card, .sbar {
+    display: block !important;
     background: #F7F4EC !important;
     border: 1px solid #334155 !important;
-    color: #0B1220 !important;
-    break-inside: avoid;
+    margin: 0 0 8px !important;
   }
   .sbar .top strong, .asf-card h4, .find h4 { color: #0B1220 !important; }
   .sbar .track, .inc-bar .track { background: #E2E8F0 !important; }
   .find .tag, .asf-card .n { color: #7A5C00 !important; }
-  .inc-bar { color: #0B1220 !important; }
+  .inc-bar {
+    display: grid !important;
+    grid-template-columns: 1fr 3fr auto;
+    background: transparent !important;
+    border: 0 !important;
+    margin: 6px 0 !important;
+  }
   .inc-bar .track > i { background: #C9A227 !important; }
   .inc-bar.hot .track > i { background: #B91C1C !important; }
+
+  #asf-block {
+    break-before: page;
+    page-break-before: always;
+  }
 }
