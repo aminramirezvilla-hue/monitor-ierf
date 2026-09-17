@@ -1,43 +1,25 @@
-/* Dictamen IERF · alto contraste para PDF / papel */
+/* Dictamen IERF alto contraste PDF */
 @media print {
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   @page { margin: 14mm 12mm; }
-  html, body { background: #ffffff !important; color: #0B1220 !important; }
-  .app-header, .sticky-ierf, .cta-row, .nav-stage, .form, footer.app-foot,
-  .suite, #screen-home, #screen-stage, .badge { display: none !important; }
-  #screen-resultado, #screen-resultado.screen { display: block !important; animation: none; }
-  main { max-width: none; padding: 0; }
-  .print-sheet {
-    display: flex !important; align-items: center; gap: 14px;
-    border-bottom: 2px solid #C9A227; padding-bottom: 10px; margin-bottom: 16px;
-  }
-  .print-logo { width: 140px; height: auto; object-fit: contain; }
-  .print-meta { display: flex; flex-direction: column; gap: 2px; }
-  .print-meta strong { font-size: 13px; color: #0B1220 !important; }
-  .print-meta span { font-size: 11px; color: #1E293B !important; }
+  html, body { background: #fff !important; color: #0B1220 !important; }
+  .app-header, .sticky-ierf, .cta-row, .nav-stage, .form, footer.app-foot, .suite, #screen-home, #screen-stage, .badge { display: none !important; }
+  #screen-resultado { display: block !important; }
+  .print-sheet { display: flex !important; align-items: center; gap: 14px; border-bottom: 2px solid #C9A227; padding-bottom: 10px; margin-bottom: 16px; }
+  .print-logo { width: 140px; height: auto; }
+  .print-meta strong { color: #0B1220 !important; font-size: 13px; }
+  .print-meta span { color: #1E293B !important; font-size: 11px; }
   .section-title { color: #7A5C00 !important; }
-  h2.block, .verdict h3 { color: #0B1220 !important; }
-  .verdict p, .lead, .caveat, .find p, .asf-card p, .sbar .top span { color: #1E293B !important; }
+  h2.block, .verdict h3, .sbar .top strong, .find h4, .asf-card h4 { color: #0B1220 !important; }
+  .verdict p, .caveat, .find p, .asf-card p, .sbar .top span { color: #1E293B !important; }
   .chip { color: #0B1220 !important; border-color: #475569 !important; background: #F8FAFC !important; }
   .chip.ok { color: #14532D !important; border-color: #166534 !important; background: #ECFDF3 !important; }
   .chip.warn { color: #7C2D12 !important; border-color: #C2410C !important; background: #FFF7ED !important; }
   .chip.crit { color: #7F1D1D !important; border-color: #B91C1C !important; background: #FEF2F2 !important; }
-  .ring { background: conic-gradient(#C9A227 calc(var(--p) * 1%), #CBD5E1 0) !important; }
-  .ring::after { background: #ffffff !important; }
+  .ring::after { background: #fff !important; }
   .ring-inner .val { color: #7A5C00 !important; }
-  .ring-inner .sub { color: #334155 !important; }
-  .sbar, .find, .asf-card {
-    background: #F7F4EC !important; border: 1px solid #334155 !important;
-    color: #0B1220 !important; break-inside: avoid;
-  }
-  .sbar .top strong, .asf-card h4, .find h4 { color: #0B1220 !important; }
+  .sbar, .find, .asf-card { background: #F7F4EC !important; border: 1px solid #334155 !important; color: #0B1220 !important; }
   .sbar .track, .inc-bar .track { background: #E2E8F0 !important; }
   .find .tag, .asf-card .n { color: #7A5C00 !important; }
   .inc-bar { color: #0B1220 !important; }
-  .inc-bar .track > i { background: #C9A227 !important; }
-  .inc-bar.hot .track > i { background: #B91C1C !important; }
 }
