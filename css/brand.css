@@ -1,0 +1,3 @@
+.brand img, .brand-logo { height: 42px; width: auto; object-fit: contain; }
+.hero-logo { width: 148px; height: auto; margin: 0 auto 0.85rem; object-fit: contain; display: block; }
+.print-sheet { display: none; }
