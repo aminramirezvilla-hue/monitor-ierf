@@ -1,17 +1,16 @@
-const CACHE = "monitor-ierf-catu-v1";
+const CACHE = "monitor-ierf-catu-v2";
 
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
   "./css/styles.css",
+  "./css/print.css",
   "./js/data.js",
   "./js/app.js",
-  "./icons/logo-catu-dorado.png",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/apple-touch-icon.png",
-  "./icons/favicon-32.png"
+  "./icons/logo-catu-dorado.svg",
+  "./icons/catu_logo_white.svg",
+  "./icons/logo-catu.svg"
 ];
 
 self.addEventListener("install", (event) => {
