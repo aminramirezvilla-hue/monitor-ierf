@@ -1,4 +1,4 @@
-const CACHE = "monitor-ierf-catu-v4";
+const CACHE = "monitor-ierf-catu-v5";
 const ASSETS = [
   "./",
   "./index.html",
@@ -11,7 +11,9 @@ const ASSETS = [
   "./icons/logo-catu-dorado.png",
   "./icons/catu_logo_white.png",
   "./icons/logo-catu-dorado.svg",
-  "./icons/catu_logo_white.svg"
+  "./icons/catu_logo_white.svg",
+  "./icons/icon-192.svg",
+  "./icons/icon-512.svg"
 ];
 self.addEventListener("install", (event) => {
   self.skipWaiting();
