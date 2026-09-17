@@ -8,21 +8,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Monitor IERF CATU" />
-  <meta property="og:title" content="Monitor IERF – CATU · Exposición fiscal por etapa" />
-  <meta property="og:description" content="Índice de Exposición al Riesgo Fiscal (0–100) ponderado por el ciclo de obra. 15 reactivos · LOPSRM / RLOPSRM." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="es_MX" />
-  <meta name="twitter:card" content="summary" />
-  <title>Monitor IERF – CATU</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="icons/logo-catu.svg" />
+  <link rel="apple-touch-icon" href="icons/logo-catu.svg" />
   <link rel="stylesheet" href="css/styles.css" />
+  <title>Monitor IERF – CATU</title>
 </head>
 <body>
   <header class="app-header">
     <div class="brand">
-      <img src="icons/logo-catu-dorado.png" alt="CATU" onerror="this.style.display='none'" />
+      <img src="icons/logo-catu.svg" alt="CATU" />
       <div class="brand-text">
         <h1>Monitor IERF</h1>
         <p>CATU · Exposición fiscal por etapa</p>
@@ -32,7 +27,6 @@
       <span class="badge offline" id="offline-badge">Modo offline</span>
     </div>
   </header>
-
   <div class="sticky-ierf" id="sticky">
     <div class="meter">
       <div class="row">
@@ -46,16 +40,13 @@
       <div class="hint" id="sticky-hint">Semáforo a partir de 8 reactivos</div>
     </div>
   </div>
-
   <main>
     <section id="screen-home" class="screen active">
       <div class="hero">
-        <img src="icons/logo-catu-dorado.png" alt="" class="hero-logo" onerror="this.style.display='none'" />
+        <img src="icons/logo-catu.svg" alt="" class="hero-logo" />
         <span class="kicker">Herramienta CATU · 2026</span>
         <h2>Índice de Exposición al <span>Riesgo Fiscal</span></h2>
-        <p class="lead">
-          Diagnóstico por las 5 etapas del ciclo de obra pública. El IERF pondera Ejecución al 40% porque ahí se concentran los montos observados; la causa suele nacer en planeación.
-        </p>
+        <p class="lead">Diagnóstico por las 5 etapas del ciclo de obra pública. El IERF pondera Ejecución al 40% porque ahí se concentran los montos observados; la causa suele nacer en planeación.</p>
       </div>
       <div class="stats">
         <div class="stat"><div class="num">15</div><div class="lbl">Reactivos</div></div>
@@ -67,55 +58,38 @@
         <button type="button" class="btn btn-ghost" id="home-resume" style="display:none">Reanudar</button>
         <button type="button" class="btn btn-ghost" id="btn-skip-legal-home">Solo diagnóstico</button>
       </div>
-      <p class="note">
-        Distinto de Auditoría Express (IVPP · 6 vicios de control). El IERF mide exposición fiscal <em>por etapa contractual</em>, no el vicio de bitácora.
-      </p>
+      <p class="note">Distinto de Auditoría Express (IVPP · 6 vicios de control). El IERF mide exposición fiscal <em>por etapa contractual</em>, no el vicio de bitácora.</p>
     </section>
-
     <section id="screen-stage" class="screen">
       <p class="section-title" id="stage-progress">Etapa 1 de 5</p>
       <h2 class="block">Ciclo legal y estado de la obra</h2>
-      <p class="lead" style="margin-bottom:0.8rem">El requisito legal y los tres reactivos viven en la misma etapa. No hay un modo lectura separado.</p>
-
-      <div class="pipeline" id="pipeline">
+      <p class="lead" style="margin-bottom:0.8rem">El requisito legal y los tres reactivos viven en la misma etapa.</p>
+      <div class="pipeline">
         <button type="button" class="pipe active" data-stage="1"><strong>E1 Planeación</strong><span class="w">15%</span></button>
         <button type="button" class="pipe" data-stage="2"><strong>E2 Presupuesto</strong><span class="w">15%</span></button>
         <button type="button" class="pipe" data-stage="3"><strong>E3 Contrato</strong><span class="w">15%</span></button>
         <button type="button" class="pipe" data-stage="4"><strong>E4 Ejecución</strong><span class="w">40%</span></button>
         <button type="button" class="pipe" data-stage="5"><strong>E5 Cierre</strong><span class="w">15%</span></button>
       </div>
-
       <article class="legal" id="legal">
         <div class="legal-top">
-          <div>
-            <div class="law" id="legal-law"></div>
-            <h3 id="legal-title"></h3>
-          </div>
+          <div><div class="law" id="legal-law"></div><h3 id="legal-title"></h3></div>
           <button type="button" class="toggle-legal" id="toggle-legal">Ocultar marco</button>
         </div>
-        <div class="legal-body">
-          <p id="legal-desc"></p>
-          <ul id="legal-items"></ul>
-        </div>
+        <div class="legal-body"><p id="legal-desc"></p><ul id="legal-items"></ul></div>
       </article>
-
       <div id="questions"></div>
-
       <div class="nav-stage">
         <button type="button" class="btn btn-ghost" id="btn-prev">Etapa anterior</button>
         <button type="button" class="btn btn-gold" id="btn-next">Siguiente etapa</button>
       </div>
     </section>
-
     <section id="screen-resultado" class="screen">
       <p class="section-title">Dictamen IERF</p>
       <div class="result-head">
         <div class="ring-wrap">
           <div class="ring" id="ring" style="--p:0"></div>
-          <div class="ring-inner">
-            <div class="val" id="ring-val">—</div>
-            <div class="sub">IERF</div>
-          </div>
+          <div class="ring-inner"><div class="val" id="ring-val">—</div><div class="sub">IERF</div></div>
         </div>
         <div class="verdict">
           <span class="chip" id="verdict-badge">Dictamen pendiente</span>
@@ -128,116 +102,70 @@
           </div>
         </div>
       </div>
-
       <p class="section-title">Exposición por etapa</p>
       <div class="stage-bars" id="stage-bars"></div>
-
       <p class="section-title">Tres acciones inmediatas</p>
       <div class="findings" id="findings"></div>
-
       <div class="cta-row">
         <button type="button" class="btn btn-gold" id="btn-to-lead">Solicitar dictamen CATU</button>
         <button type="button" class="btn btn-ghost" id="btn-print">Imprimir / PDF</button>
         <button type="button" class="btn btn-ghost" id="btn-share">Compartir herramienta</button>
         <button type="button" class="btn btn-ghost" id="btn-reset">Empezar de nuevo</button>
       </div>
-
       <div id="asf-block">
         <p class="section-title">Radiografía de irregularidades</p>
         <h2 class="block">Dónde suele nacer el pliego</h2>
-        <p class="caveat" id="asf-caveat">Patrón observado en fiscalización de obra pública. No sustituye una cuenta pública específica; sirve para priorizar control.</p>
+        <p class="caveat">Patrón observado en fiscalización de obra pública. No sustituye una cuenta pública específica.</p>
         <div class="asf-grid">
-          <article class="asf-card"><div class="n">88%</div><h4>Montos resarcitorios en ejecución</h4><p>La falla suele nacer en planeación (Art. 23 RLOPSRM), no en la cuadrilla.</p></article>
-          <article class="asf-card"><div class="n">77.7%</div><h4>Imprevistos por proyecto deficiente</h4><p>Estudios o planos incompletos que fuerzan adendas y retrasos.</p></article>
-          <article class="asf-card"><div class="n">21.4%</div><h4>Parálisis por predio o vía</h4><p>Liberación no formalizada que detiene maquinaria y genera sobrecosto.</p></article>
+          <article class="asf-card"><div class="n">88%</div><h4>Montos resarcitorios en ejecución</h4><p>La falla suele nacer en planeación (Art. 23 RLOPSRM).</p></article>
+          <article class="asf-card"><div class="n">77.7%</div><h4>Imprevistos por proyecto deficiente</h4><p>Estudios o planos incompletos que fuerzan adendas.</p></article>
+          <article class="asf-card"><div class="n">21.4%</div><h4>Parálisis por predio o vía</h4><p>Liberación no formalizada que detiene maquinaria.</p></article>
         </div>
         <div id="asf-bars"></div>
       </div>
-
       <p class="section-title">Suite CATU</p>
       <div class="suite">
         <a href="https://aminramirezvilla-hue.github.io/Bitacora-de-Obra_ChecklistPublic/"><strong>Checklist Bitácora</strong><span>Cumplimiento BESOP por fase</span></a>
-        <a href="https://aminramirezvilla-hue.github.io/Auditoria_Express_CATU/"><strong>Auditoría Express</strong><span>6 vicios críticos · IVPP</span></a>
         <a href="https://aminramirezvilla-hue.github.io/reportes-supervision-catu./"><strong>Reportes de Supervisión</strong><span>Expediente S.T.A.R.T. · Art. 53</span></a>
       </div>
     </section>
-
     <section id="screen-lead" class="screen">
       <p class="section-title">Canalización</p>
       <h2 class="block">Dictamen técnico-jurídico preventivo</h2>
-      <p class="lead" style="margin-bottom:0.9rem">
-        El IERF viaja con la solicitud. Un auditor sénior responde en un plazo no mayor a 24 horas hábiles a
-        <strong>centro.catu@gmail.com</strong>.
-      </p>
-
+      <p class="lead" style="margin-bottom:0.9rem">El IERF viaja con la solicitud. Contacto: <strong>centro.catu@gmail.com</strong>.</p>
       <form class="form" id="lead-form" action="https://formspree.io/f/mljebgql" method="POST">
         <input type="hidden" name="_subject" value="Prospecto CATU · Diagnóstico IERF" />
         <input type="hidden" name="score_ierf_obtenido" id="form-score" />
         <input type="hidden" name="diagnostico_nivel" id="form-level" />
-
         <div class="grid-2">
-          <label>Nombre completo *
-            <input type="text" name="nombre" required placeholder="Ing. / Lic. Nombre" autocomplete="name" />
-          </label>
-          <label>Correo institucional *
-            <input type="email" name="email" required placeholder="usuario@dependencia.gob.mx" autocomplete="email" />
-          </label>
+          <label>Nombre completo *<input type="text" name="nombre" required placeholder="Ing. / Lic. Nombre" /></label>
+          <label>Correo institucional *<input type="email" name="email" required placeholder="usuario@dependencia.gob.mx" /></label>
         </div>
         <div class="grid-2">
-          <label>Cargo
-            <input type="text" name="cargo" placeholder="Residente / Director de Obras / OIC" />
-          </label>
-          <label>Entidad / municipio / empresa *
-            <input type="text" name="entidad" required placeholder="Municipio de Chilpancingo" />
-          </label>
+          <label>Cargo<input type="text" name="cargo" placeholder="Residente / Director de Obras / OIC" /></label>
+          <label>Entidad / municipio *<input type="text" name="entidad" required placeholder="Municipio de Chilpancingo" /></label>
         </div>
         <div class="grid-2">
-          <label>Teléfono (WhatsApp) *
-            <input type="tel" name="telefono" required placeholder="747 000 0000" autocomplete="tel" />
-          </label>
-          <label>Monto estimado de la obra
+          <label>Teléfono *<input type="tel" name="telefono" required placeholder="747 000 0000" /></label>
+          <label>Monto estimado
             <select name="monto_obra">
-              <option value="$1M - $10M MDP">$1M – $10M MDP</option>
-              <option value="$10M - $50M MDP">$10M – $50M MDP</option>
-              <option value="$50M - $200M MDP">$50M – $200M MDP</option>
-              <option value="Más de $200M MDP">Más de $200M MDP</option>
+              <option>$1M – $10M MDP</option>
+              <option>$10M – $50M MDP</option>
+              <option>$50M – $200M MDP</option>
+              <option>Más de $200M MDP</option>
             </select>
           </label>
         </div>
-        <label>Contexto adicional
-          <textarea name="mensaje_adicional" rows="3" placeholder="Pliego de observaciones, etapa actual, dependencia fiscalizadora…"></textarea>
-        </label>
-        <label class="check">
-          <input type="checkbox" name="privacidad" required />
-          <span>Acepto el <a href="#privacidad" id="privacy-toggle">Aviso de Privacidad</a> y el uso de estos datos para contacto técnico de CATU.</span>
-        </label>
+        <label>Contexto adicional<textarea name="mensaje_adicional" rows="3"></textarea></label>
+        <label class="check"><input type="checkbox" name="privacidad" required /><span>Acepto el <a href="#privacidad" id="privacy-toggle">Aviso de Privacidad</a>.</span></label>
         <button type="submit" class="btn btn-gold btn-block">Enviar solicitud</button>
       </form>
-
-      <div class="privacy" id="privacy">
-        CATU trata nombre, correo, cargo, entidad y teléfono únicamente para contactarlo respecto del dictamen IERF.
-        No se cede a terceros ajenos a la prestación del servicio. Puede solicitar acceso, rectificación o cancelación en centro.catu@gmail.com.
-        El puntaje se calcula en su navegador; las respuestas se envían solo si usted manda este formulario.
-      </div>
-
-      <div class="confirm" id="lead-ok">
-        <h3>Solicitud canalizada</h3>
-        <p>Los resultados IERF se enviaron al equipo técnico. Un auditor sénior se pondrá en contacto en un plazo no mayor a 24 horas hábiles.</p>
-        <p id="lead-ok-extra"></p>
-      </div>
-
-      <div class="cta-row" style="margin-top:0.9rem">
-        <button type="button" class="btn btn-ghost" id="lead-back">Volver al dictamen</button>
-      </div>
+      <div class="privacy" id="privacy">CATU trata estos datos solo para contactarlo sobre el dictamen IERF. Baja, rectificación o cancelación: centro.catu@gmail.com.</div>
+      <div class="confirm" id="lead-ok"><h3>Solicitud canalizada</h3><p>Un auditor sénior responderá en un plazo no mayor a 24 horas hábiles.</p><p id="lead-ok-extra"></p></div>
+      <div class="cta-row" style="margin-top:0.9rem"><button type="button" class="btn btn-ghost" id="lead-back">Volver al dictamen</button></div>
     </section>
   </main>
-
-  <footer class="app-foot">
-    Centro de Auditoría Técnica y Urbana · Monitor IERF – CATU<br />
-    <a href="mailto:centro.catu@gmail.com">centro.catu@gmail.com</a>
-    · LOPSRM / RLOPSRM · Herramienta preventiva, no dictamen pericial
-  </footer>
-
+  <footer class="app-foot">Centro de Auditoría Técnica y Urbana · <a href="mailto:centro.catu@gmail.com">centro.catu@gmail.com</a></footer>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
