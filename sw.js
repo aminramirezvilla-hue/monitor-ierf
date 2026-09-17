@@ -6,6 +6,7 @@ const ASSETS = [
   "./manifest.json",
   "./css/styles.css",
   "./css/print.css",
+  "./css/brand.css",
   "./js/data.js",
   "./js/app.js",
   "./icons/logo-catu-dorado.svg",
